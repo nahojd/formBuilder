@@ -846,7 +846,10 @@ const FormBuilder = function(opts, element, $) {
   // Append the new field to the editor
   const appendNewField = function(values, isNew = true) {
     const type = values.type || 'text'
-    const label = values.label || (isNew ? i18n.get(type) || mi18n.get('label') : '')
+    let label = values.label || (isNew ? mi18n.get(type) || mi18n.get('label') : '')
+    if (!label && type === 'hidden')
+      label = mi18n.get(type) + ': ' + values.name
+
     const disabledFieldButtons = opts.disabledFieldButtons[type] || values.disabledFieldButtons
     let fieldButtons = [
       m('a', null, {
